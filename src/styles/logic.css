@@ -1,0 +1,22 @@
+.step-view {
+	display: none;
+	opacity: 0;
+	pointer-events: none;
+	
+	transition: opacity .3s;
+	
+	&.is-active {
+		display: block;
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+.info {
+	
+	&__select-type {
+		&.is-active {
+			visibility: visible;
+		}
+	}
+}

@@ -1,0 +1,76 @@
+.radio {
+	margin: 10px 0;
+	flex-grow: 0;
+
+	&--clear {
+	    display: inline-flex;
+	    flex-direction: column;
+
+		.radio {
+			&__input-container {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-top: 5px;
+			}
+
+			&__input-label {
+				margin-left: 5px;
+			}
+		}
+	}
+
+	&--withbg {
+		background-color: #cce1ff;
+		padding: 10px;
+        display: inline-flex;
+        flex-direction: column;
+	}
+
+	&--cardtype {
+        display: block;
+
+		.radio {
+
+            &__button-container {
+                display: flex;
+                align-items: center;
+            }
+
+            &__input-container {
+                width: 200px;
+                height: 100px;
+                position: relative;
+
+                &:nth-child(n+2) {
+                    margin-left: 10px;
+                }
+            }
+
+			&__input-label {
+				width: 100%;
+                height: 100%;
+                font-size: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: #f7f7f7;
+				border: 1px solid #bdbdbd;
+				cursor: pointer;
+			}
+
+            &__radio-button {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+
+                &:checked {
+                    & + label {
+                        background-color: #e9f0fa;
+                        border: 1px solid #07c;
+                    }
+                }
+            }
+		}
+	}
+}

@@ -1,0 +1,20 @@
+// @import 'partials/normalize.css';
+
+
+@import 'bootstrap/dist/css/bootstrap.min.css';         // Common bootstrap styles
+
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';    // Grid only
+@import 'bootstrap/dist/css/bootstrap-reboot.min.css';  // Reboot - base styles
+
+@import 'partials/variables.css';
+@import 'partials/uniquite-normalize.css';
+@import 'partials/default.css';
+@import 'blocks/availability.css';
+@import 'blocks/reservation-table.css';
+@import 'blocks/terms.css';
+@import 'blocks/info.css';
+@import 'blocks/pay.css';
+@import 'blocks/visa-card.css';
+@import 'blocks/radio.css';
+
+@import 'logic.css';
