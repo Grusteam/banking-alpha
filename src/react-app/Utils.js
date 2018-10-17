@@ -1,4 +1,4 @@
-import CONSTANTS, { steps } from './Constants.js';
+import CONSTANTS, { steps, initialState } from './Constants.js';
 
 const
 	drawDump = SETUP => {
@@ -17,8 +17,8 @@ const
 		
 		planeAppRoot.style="opacity: 1; background-color: rgba(0, 200, 0, 0.7)";
 	},
-	getError = (value, requirements) => {
-		const result = value && value.length > 0 ? false : 'заполните поле';
+	getError = (value, type) => {
+		const result = value && value.length > 0 ? false : type == 'file' ? 'выберите файл' : 'заполните поле';
 		
 		return result;
 	},
@@ -31,10 +31,10 @@ const
 		
 		let wasErrors = false;
 			
-		currentFields.forEach(({ name, field }) => {
+		currentFields.forEach(({ name, field, type }) => {
 			const
 				currentValue = state[field],
-				error = getError(currentValue);
+				error = getError(currentValue, type);
 				
 			if (error) {
 				ERRORS[field] = error;
@@ -44,12 +44,17 @@ const
 		
 		return wasErrors ? ERRORS : null;
 	},
+	getRandom = (min, max) => Math.floor(Math.random() * max) + min,
+	getFileLink = async file => {
+		const
+			data = await fetch('https://jsonplaceholder.typicode.com/photos')
+				.then(response => response.json())
+				.then(json => json),
+			url = data[getRandom(0, 4999)].url;
+			
+			return url;
+	},
 	getInitialState = steps => {
-		const initialState = {
-			STEP: 1,
-			ERRORS: {},
-		};
-		
 		for (const step in steps) {
 			const value = steps[step];
 			
@@ -67,12 +72,14 @@ const UTILS = {
 	drawDump,
 	validateForm,
 	getInitialState,
+	getFileLink,
 };
 
 export {
 	drawDump,
 	validateForm,
 	getInitialState,
+	getFileLink,
 };
 
 export default UTILS;

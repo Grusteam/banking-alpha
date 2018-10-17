@@ -12,30 +12,30 @@ import UTILS, {  } from '../Utils.js';
 
 /*Шаг 2 введите данные*/
 class UniversalStep extends Component {
-	/*onClick() {
-		const { onNextStepClick } = this.props;
-		onNextStepClick();
-	}*/
-	
 	render() {
 		const
 			{ STEP, ERRORS, onNextStepClick } = this.props,
 			currentSteps = steps[STEP] || [];
 		
 		return <div className={`step-view ${true && 'is-active'}`}>
-			{currentSteps.map(({ name, field, defaultValue }, i) => {
-				return <div key={i} className="input-wrapper">
-					<Input setting={{name, field}} />
-					<div key={i} className="input-error">
+			{currentSteps.map(({ name, field, defaultValue, type }, i) => {
+				const identifier = `${field}_${i}`
+				return <div key={identifier} className="input-wrapper">
+				
+					<Input setting={{name, field, type}} />
+					
+					<div className="input-error">
 						{ERRORS && ERRORS[field]}
 					</div>
+					
 				</div>
 			})}
+			
 			<button
 				onClick={onNextStepClick}
 				className="btn"
 			>
-				button
+				Close step
 			</button>
 		</div>
 	}
@@ -55,6 +55,6 @@ const
 const UniversalStepRedux = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(UniversalStep)
+)(UniversalStep);
 
 export default UniversalStepRedux;

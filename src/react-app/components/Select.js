@@ -30,7 +30,7 @@ class Select extends Component {
 				
 				return <option
 					value={value}
-					key={i}
+					key={identifier}
 				>
 					{name}
 				</option>
@@ -51,6 +51,6 @@ const mapDispatchToProps = dispatch => ({
 const SelectRedux = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Select)
+)(Select);
 
 export default SelectRedux;

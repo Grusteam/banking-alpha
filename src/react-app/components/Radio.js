@@ -57,6 +57,6 @@ const mapDispatchToProps = dispatch => ({
 const RadioRedux = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Radio)
+)(Radio);
 
 export default RadioRedux;

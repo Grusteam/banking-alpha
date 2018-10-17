@@ -3,36 +3,40 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import rootReducer from '../reducers/rootReducer.js'
 
+import UTILS, { getFileLink } from '../Utils.js';
+
 class Input extends Component {
-	onChange(e) {
+	async onChange(e) {
 		const
-			{ setting: {name, field}, onInputChange } = this.props,
+			{ setting: { name, field }, onInputChange } = this.props,
 			{ target } = e,
-			{ value } = target;
+			{ value, files } = target;
+			
+		let result = value;
+			
+		if (files) {
+			const
+				file = files[0],
+				url = await getFileLink(file);
+				
+			console.log('file', file);
+			
+			result = file ? url : '';
+		}
 		
-		onInputChange({value, field});
+		onInputChange({value: result, field});
 	}
 	
 	render() {
-		const { setting: {name, field, type, placeholder}, onChange } = this.props;
+		const
+			{ setting: {name, field, type, placeholder}, onChange } = this.props,
+			file = type == 'file';
 		
-		if (type === 'textarea') {
-			return <textarea
-				className="info__textarea"
-				name={field}
-				defaultValue=""
-				onChange={this.onChange.bind(this)}
-				placeholder={placeholder || ''}
-			></textarea>
-		}
-		
-		// console.log('this.props', this.props);
 		return <div className="info__name">
 			<div className="info__title">{name}</div>
 			<input
-				type="text"
+				type={type || 'text'}
 				name={field}
-				defaultValue=""
 				onChange={this.onChange.bind(this)}
 				className="info__name-input"
 			/>
@@ -52,6 +56,6 @@ const mapDispatchToProps = dispatch => ({
 const InputRedux = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Input)
+)(Input);
 
 export default InputRedux;

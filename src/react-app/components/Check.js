@@ -38,6 +38,6 @@ const mapDispatchToProps = dispatch => ({
 const CheckRedux = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Check)
+)(Check);
 
 export default CheckRedux;

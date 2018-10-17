@@ -26,7 +26,8 @@ const rootReducer = (state = {}, action) => {
 		/*INPUT_*/
 		case 'SET_INPUT_VALUE':
 			return Object.assign({}, state, {
-				[`${field}`.toUpperCase()]: value,
+				[`${field}`]: value,
+				ERRORS: Object.assign({}, state.ERRORS, {[`${field}`]: null}),
 			});
 			
 		default:
