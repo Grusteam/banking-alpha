@@ -47,6 +47,7 @@ const
 	getInitialState = steps => {
 		const initialState = {
 			STEP: 1,
+			ERRORS: {},
 		};
 		
 		for (const step in steps) {
@@ -58,43 +59,17 @@ const
 		}
 		
 		return initialState;
-	},
-	closeStep = (anySetup, STEP) => {
-		/*const stepSetup = getSetup(anySetup, STEP);
-		
-		delete anySetup['type'];
-		delete anySetup['STEP'];
-		
-		const newState = Object.assign({}, anySetup, {
-			[`STEP_${STEP}`]: stepSetup,
-		})
-		
-		const TEMPOPRARRY_FRESH_STATE = Object.assign({}, state, newState);
-		
-		if (STEP == 3) {
-			const SETUP = getSetup(TEMPOPRARRY_FRESH_STATE);
-				
-			newState['FINISH_SETUP'] = SETUP;
-			
-			drawDump(SETUP);
-		}
-		
-		return newState;*/
-	},
-	getSetup = (state, stage) => {
 	};
 	
 /* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 	
 const UTILS = {
-	getSetup,
 	drawDump,
 	validateForm,
 	getInitialState,
 };
 
 export {
-	getSetup,
 	drawDump,
 	validateForm,
 	getInitialState,

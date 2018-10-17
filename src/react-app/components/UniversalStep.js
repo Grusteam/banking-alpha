@@ -19,12 +19,17 @@ class UniversalStep extends Component {
 	
 	render() {
 		const
-			{ STEP, onNextStepClick, GUEST_STATE } = this.props,
+			{ STEP, ERRORS, onNextStepClick } = this.props,
 			currentSteps = steps[STEP] || [];
 		
 		return <div className={`step-view ${true && 'is-active'}`}>
 			{currentSteps.map(({ name, field, defaultValue }, i) => {
-				return <Input key={i} setting={{name, field}} />
+				return <div key={i} className="input-wrapper">
+					<Input setting={{name, field}} />
+					<div key={i} className="input-error">
+						{ERRORS && ERRORS[field]}
+					</div>
+				</div>
 			})}
 			<button
 				onClick={onNextStepClick}
@@ -37,10 +42,10 @@ class UniversalStep extends Component {
 }
 
 const
-	mapStateToProps = ({ STEP, GUEST_STATE }) => {
+	mapStateToProps = ({ STEP, ERRORS }) => {
 		return {
 			STEP,
-			GUEST_STATE,
+			ERRORS,
 		};
 	},
 	mapDispatchToProps = dispatch => ({
