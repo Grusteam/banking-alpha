@@ -1,15 +1,6 @@
-import CONSTANTS, { arrivalSelectSetting } from './Constants.js';
+import CONSTANTS, { steps } from './Constants.js';
 
 const
-	getCountSuffix = num => {
-		if (num == 1) {
-			return 'ая';
-		} else if (num >= 2 && num <= 4) {
-			return 'ые';
-		}
-		
-		return '';
-	},
 	drawDump = SETUP => {
 		console.log('send to server =>');
 		console.log(SETUP);
@@ -26,79 +17,87 @@ const
 		
 		planeAppRoot.style="opacity: 1; background-color: rgba(0, 200, 0, 0.7)";
 	},
-	validateForm = x => {
-		console.log('x', x);
+	getError = (value, requirements) => {
+		const result = value && value.length > 0 ? false : 'заполните поле';
+		
+		return result;
+	},
+	validateForm = (state, action) => {
+		const
+			{ STEP } = state,
+			{  } = action,
+			currentFields = steps[STEP] || [],
+			ERRORS = {};
+		
+		let wasErrors = false;
+			
+		currentFields.forEach(({ name, field }) => {
+			const
+				currentValue = state[field],
+				error = getError(currentValue);
+				
+			if (error) {
+				ERRORS[field] = error;
+				wasErrors = true;
+			}
+		});
+		
+		return wasErrors ? ERRORS : null;
+	},
+	getInitialState = steps => {
+		const initialState = {
+			STEP: 1,
+		};
+		
+		for (const step in steps) {
+			const value = steps[step];
+			
+			value.forEach(({ name, field, defaultValue }) => {
+				initialState[field] = defaultValue;
+			});
+		}
+		
+		return initialState;
+	},
+	closeStep = (anySetup, STEP) => {
+		/*const stepSetup = getSetup(anySetup, STEP);
+		
+		delete anySetup['type'];
+		delete anySetup['STEP'];
+		
+		const newState = Object.assign({}, anySetup, {
+			[`STEP_${STEP}`]: stepSetup,
+		})
+		
+		const TEMPOPRARRY_FRESH_STATE = Object.assign({}, state, newState);
+		
+		if (STEP == 3) {
+			const SETUP = getSetup(TEMPOPRARRY_FRESH_STATE);
+				
+			newState['FINISH_SETUP'] = SETUP;
+			
+			drawDump(SETUP);
+		}
+		
+		return newState;*/
 	},
 	getSetup = (state, stage) => {
-		
-		const
-			{ type, STEP_1, STEP_2, STEP_3, BED_COUNT, ROOM_COUNT, USER_NAME, USER_SURNAME, USER_EMAIL, USER_PHONE, WORK_STATE, GUEST_STATE, GUEST_FULLNAME, GUEST_MAIL, USER_ANNOTATION, USER_SILENT_NUMBER, ARRIVAL_TIME = 0, CARD_NUMBER, CARD_EXPIRED, CARD_CVV, } = state,
-			byHand = type == 'CLOSE_STEP';
-		
-		const stages = {
-			stage_1: {
-				bed_count: BED_COUNT,
-				room_count: ROOM_COUNT,
-			},
-			stage_2: {
-				business: WORK_STATE,
-				user: {
-					name: USER_NAME,
-					surname: USER_SURNAME,
-					email: USER_EMAIL,
-					phone: USER_PHONE,
-				},
-				holder: {
-					is_another_person: GUEST_STATE,
-				},
-				request: {
-					annotation: USER_ANNOTATION,
-					silent: USER_SILENT_NUMBER ? 1 : 0,
-					arrival: arrivalSelectSetting['options'][ARRIVAL_TIME]['name'],
-				},
-			},
-			stage_3: {
-				payment: {
-					type: 0,
-					card: {
-						number: CARD_NUMBER,
-						expired: CARD_EXPIRED,
-						cvv: CARD_CVV,
-					}
-				},
-			},
-		},
-		{ stage_1, stage_2, stage_3 } = stages;
-			
-		/* anotherHolder */
-		const { holder } = stage_2;
-		
-		if (holder.is_another_person == 1) {
-			holder.fullname = GUEST_FULLNAME;
-			holder.email = GUEST_MAIL;
-		} else {}
-		
-		if (stage || byHand) return stages[`stage_${stage}`];
-		
-		const result = Object.assign({}, (STEP_1 || stage_1), (STEP_2 || stage_2), (STEP_3 || stage_3));
-		
-		return result;	
 	};
 	
 /* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 	
 const UTILS = {
-	getCountSuffix,
 	getSetup,
 	drawDump,
 	validateForm,
+	getInitialState,
 };
 
 export {
-	getCountSuffix,
 	getSetup,
 	drawDump,
 	validateForm,
+	getInitialState,
 };
 
 export default UTILS;

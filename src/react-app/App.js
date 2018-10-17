@@ -5,13 +5,11 @@ import rootReducer from './reducers/rootReducer.js'
 import stage from './reducers/stage.js'
 
 /* tools */
-import CONSTANTS, { initialState, } from './Constants.js';
-import UTILS, {  } from './Utils.js';
+import CONSTANTS, { steps } from './Constants.js';
+import UTILS, { getInitialState } from './Utils.js';
 
 /* components */
-import Step1 from './components/Step1.js'
-import Step2 from './components/Step2.js'
-import Step3 from './components/Step3.js'
+import UniversalStep from './components/UniversalStep.js'
 
 /* redux store creation */
 const store = createStore(
@@ -20,7 +18,7 @@ const store = createStore(
 		rootReducer,
 		stage,
 	}),*/
-	initialState,
+	getInitialState(steps),
 	compose(
 		// applyMiddleware(thunk),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -41,9 +39,7 @@ class App extends Component {
 		/*return <div>123</div>;*/
 		return <Provider store={store}>
 			<div id="react-wrapper">
-				<Step1 />
-				<Step2 />
-				<Step3 />
+				<UniversalStep />
 			</div>
 		</Provider>;
 	}
