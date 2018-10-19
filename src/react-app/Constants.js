@@ -3,13 +3,13 @@ import UTILS, {  } from './Utils.js';
 const
 	steps = {
 		1: [
-			{name: 'Моб телефон', field: 'PHONE', defaultValue: '', type: 'text'},
-			{name: 'Название компании', field: 'COMPANY', defaultValue: '', type: 'text'},
-			/*{name: 'ИНН', field: 'INN_NUM', defaultValue: '', type: 'text'},
-			{name: 'Фамилия', field: 'SURNEME', defaultValue: '', type: 'text'},
-			{name: 'Имя', field: 'NAME', defaultValue: '', type: 'text'},
-			{name: 'Отчество', field: 'SECOND_NAME', defaultValue: '', type: 'text'},
-			{name: 'Эл почта', field: 'EMAIL', defaultValue: '', type: 'text'},*/
+			{name: 'Моб телефон', field: 'PHONE', defaultValue: '', type: 'text', placeholder: '+79281237788'},
+			{name: 'Название компании', field: 'COMPANY', defaultValue: '', type: 'text', placeholder: 'Магна'},
+			/*{name: 'ИНН', field: 'INN_NUM', defaultValue: '', type: 'text', placeholder: '3'},
+			{name: 'Фамилия', field: 'SURNEME', defaultValue: '', type: 'text', placeholder: '4'},
+			{name: 'Имя', field: 'NAME', defaultValue: '', type: 'text', placeholder: '5'},
+			{name: 'Отчество', field: 'SECOND_NAME', defaultValue: '', type: 'text', placeholder: '6'},
+			{name: 'Эл почта', field: 'EMAIL', defaultValue: '', type: 'text', placeholder: '7'},*/
 		],
 		2: [
 			{name: 'Паспорт руководителя', field: 'CHIEF_PASSPORT', defaultValue: '', type: 'file'},

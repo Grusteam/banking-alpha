@@ -6,6 +6,7 @@ import rootReducer from '../redux/rootReducer.js'
 import Actions, { changeStep, setStepAttempt } from '../redux/actions.js'
 
 /* components */
+import InputEnvironment from './InputEnvironment.js'
 import Input from './Input.js'
 
 /* tools */
@@ -41,23 +42,25 @@ class UniversalStep extends Component {
 			stepIsValid = STEP_VALIDITY[STEP] || false;
 			
 		return <div className={`step-view ${true && 'is-active'}`}>
-			{currentStep.map(({ name, field, defaultValue, type }, i) => {
+		
+			{/* all inputs in this step */}
+			{currentStep.map(({ name, field, defaultValue, type, placeholder }, i) => {
 				const
 					currentValue = INPUTS[field],
-					{ ERROR, TOUCHED, VALUE } = currentValue,
 					identifier = `${field}_${i}`;
 					
-				return <div key={identifier} className="input-wrapper">
-				
-					<Input setting={{name, field, type, value: currentValue}} />
-					
-					<div className="input-error">
-						{stepWasAttempt && (!TOUCHED ? 'не заполнено' : ERROR)}
-					</div>
-					
-				</div>
+				/* 1 input with name and error */
+				return <InputEnvironment
+						key={identifier}
+						setting={{name, value: currentValue}}
+					>
+						<Input
+							setting={{field, type, placeholder, value: currentValue}}
+						/>
+				</InputEnvironment>;
 			})}
 			
+			{/* step change button */}
 			<button
 				className={`btn ${!stepIsValid && stepWasAttempt && 'is-active'}`}
 				onClick={this.onNextStepClick.bind(this)}

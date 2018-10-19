@@ -7,9 +7,11 @@ import { setInputValue } from '../redux/actions.js'
 import UTILS, { getFileLink, getError, validateForm } from '../Utils.js';
 
 class Input extends Component {
-	async onChange(e, type) {
+	async onChange(e) {
 		const
-			{ setting: { name, field }, onInputChange, STEP, INPUTS } = this.props,
+			{ setting: { field, type } } = this.props, /* parent */
+			{ STEP, INPUTS } = this.props, /* redux state */
+			{ onInputChange } = this.props, /* redux actions */
 			{ target } = e,
 			{ value, files } = target;
 			
@@ -32,29 +34,27 @@ class Input extends Component {
 		
 		const instantField = { field, VALUE: result, ERROR: error, TOUCHED: true };
 		
-		
 		stepValid = validateForm(STEP, INPUTS, instantField);
-		
-		console.log('error, stepValid', error, stepValid);
+		// console.log('error, stepValid', error, stepValid);
 		
 		onInputChange({value: result, error, field}, {valid: stepValid});
 	}
 	
 	render() {
 		const
-			{ setting: {name, field, type, placeholder, value}, onChange } = this.props,
+			{ setting: { field, type, placeholder, value }, onChange } = this.props, /* parent */
+			{  } = this.props, /* redux state */
 			{ ERROR, TOUCHED, VALUE } = value,
 			file = type == 'file';
 		
-		return <div className="info__name">
-			<div className="info__title">{name}</div>
-			<input
-				type={type || 'text'}
-				name={field}
-				onChange={(e) => this.onChange.bind(this)(e, type)}
-				className="info__name-input"
-			/>
-		</div>
+		return <input
+			placeholder={placeholder}
+			value={file ? undefined : VALUE}
+			type={type || 'text'}
+			name={field}
+			onChange={this.onChange.bind(this)}
+			className="info__name-input"
+		/>
 	}
 }
 
