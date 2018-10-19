@@ -18,31 +18,25 @@ const
 		planeAppRoot.style="opacity: 1; background-color: rgba(0, 200, 0, 0.7)";
 	},
 	getError = (value, type) => {
-		const result = value && value.length > 0 ? false : type == 'file' ? 'выберите файл' : 'заполните поле';
-		
+		const result = value && value.length >= 5 ? false : type == 'file' ? 'выберите файл' : 'длина меньше 5';
 		return result;
 	},
-	validateForm = (state, action) => {
-		const
-			{ STEP } = state,
-			{  } = action,
-			currentFields = steps[STEP] || [],
-			ERRORS = {};
+	validateForm = (STEP, inputs, instantField) => {
+		const currentStep = steps[STEP] || [];
 		
-		let wasErrors = false;
-			
-		currentFields.forEach(({ name, field, type }) => {
+		let currentStepValid = true;
+		
+		currentStep.forEach(({ name, field, type }) => {
 			const
-				currentValue = state[field],
-				error = getError(currentValue, type);
+				itIsInstantField = !instantField ? false : field === instantField.field,
+				currentState = itIsInstantField ? instantField : inputs[field];
 				
-			if (error) {
-				ERRORS[field] = error;
-				wasErrors = true;
+			if (!currentState.TOUCHED || currentState.ERROR) {
+				currentStepValid = false;
 			}
 		});
 		
-		return wasErrors ? ERRORS : null;
+		return currentStepValid;
 	},
 	getRandom = (min, max) => Math.floor(Math.random() * max) + min,
 	getFileLink = async file => {
@@ -59,7 +53,10 @@ const
 			const value = steps[step];
 			
 			value.forEach(({ name, field, defaultValue }) => {
-				initialState[field] = defaultValue;
+				initialState['INPUTS'][field] = {};
+				initialState['INPUTS'][field]['VALUE'] = defaultValue;
+				initialState['INPUTS'][field]['ERROR'] = null;
+				initialState['INPUTS'][field]['TOUCHED'] = false;
 			});
 		}
 		
@@ -73,6 +70,7 @@ const UTILS = {
 	validateForm,
 	getInitialState,
 	getFileLink,
+	getError,
 };
 
 export {
@@ -80,6 +78,7 @@ export {
 	validateForm,
 	getInitialState,
 	getFileLink,
+	getError,
 };
 
 export default UTILS;

@@ -1,35 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import rootReducer from '../reducers/rootReducer.js'
 
-import UTILS, { getFileLink } from '../Utils.js';
+import { setInputValue } from '../redux/actions.js'
+
+import UTILS, { getFileLink, getError, validateForm } from '../Utils.js';
 
 class Input extends Component {
-	async onChange(e) {
+	async onChange(e, type) {
 		const
-			{ setting: { name, field }, onInputChange } = this.props,
+			{ setting: { name, field }, onInputChange, STEP, INPUTS } = this.props,
 			{ target } = e,
 			{ value, files } = target;
 			
-		let result = value;
+		let
+			result = value,
+			error = null,
+			stepValid = false;
 			
 		if (files) {
 			const
 				file = files[0],
 				url = await getFileLink(file);
 				
-			console.log('file', file);
+			// console.log('file', file);
 			
 			result = file ? url : '';
 		}
 		
-		onInputChange({value: result, field});
+		error = getError(result, type);
+		
+		const instantField = { field, VALUE: result, ERROR: error, TOUCHED: true };
+		
+		
+		stepValid = validateForm(STEP, INPUTS, instantField);
+		
+		console.log('error, stepValid', error, stepValid);
+		
+		onInputChange({value: result, error, field}, {valid: stepValid});
 	}
 	
 	render() {
 		const
-			{ setting: {name, field, type, placeholder}, onChange } = this.props,
+			{ setting: {name, field, type, placeholder, value}, onChange } = this.props,
+			{ ERROR, TOUCHED, VALUE } = value,
 			file = type == 'file';
 		
 		return <div className="info__name">
@@ -37,20 +51,22 @@ class Input extends Component {
 			<input
 				type={type || 'text'}
 				name={field}
-				onChange={this.onChange.bind(this)}
+				onChange={(e) => this.onChange.bind(this)(e, type)}
 				className="info__name-input"
 			/>
 		</div>
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ STEP, INPUTS }) => {
 	return {
+		STEP,
+		INPUTS,
 	}
 }
 
 const mapDispatchToProps = dispatch => ({
-	onInputChange: ({ value, field }) => dispatch({type: 'SET_INPUT_VALUE', value, field}),
+	onInputChange: (input, step) => dispatch(setInputValue(input, step)),
 });
 
 const InputRedux = connect(

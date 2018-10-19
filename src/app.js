@@ -9,7 +9,7 @@ import React, { Component, PureComponent, createElement } from 'react';
 import ReactDOM, { render, createPortal } from 'react-dom';
 
 /*components*/
-import App from './react-app/App.js';
+import ReduxApp from './react-app/ReduxApp.js';
 
 const
 	planeAppRoot = document.getElementById('plane-app'),
@@ -21,7 +21,7 @@ const
 		planeAppRoot.style="opacity: 0.2; background-color: rgba(0, 255, 0, 0.2)";
 		
 		activationButton.removeEventListener("click", onClick);
-		render(<App/>, reactRoot);
+		render(<ReduxApp/>, reactRoot);
 	};
 	
 activationButton.addEventListener("click", onClick);

@@ -1,39 +1,66 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import rootReducer from '../reducers/rootReducer.js'
+import rootReducer from '../redux/rootReducer.js'
+
+import Actions, { changeStep, setStepAttempt } from '../redux/actions.js'
 
 /* components */
 import Input from './Input.js'
 
 /* tools */
 import CONSTANTS, { steps } from '../Constants.js';
-import UTILS, {  } from '../Utils.js';
+import UTILS, { validateForm } from '../Utils.js';
 
 /*Шаг 2 введите данные*/
 class UniversalStep extends Component {
+	constructor(props, context) {
+		super(props);
+
+		const { STEP } = props;
+	}
+	
+	componentWillReceiveProps({ STEP }) {
+		if (0) {
+		}
+	}
+	
+	onNextStepClick() {
+		const
+			{ STEP, INPUTS, onNextStepClickRedux, showErrorsRedux } = this.props,
+			stepValid = validateForm(STEP, INPUTS);
+			
+		stepValid ? onNextStepClickRedux() : showErrorsRedux();
+	}
+	
 	render() {
 		const
-			{ STEP, ERRORS, onNextStepClick } = this.props,
-			currentSteps = steps[STEP] || [];
-		
+			{ STEP, INPUTS, STEP_ATTEMPTS, STEP_VALIDITY } = this.props,
+			currentStep = steps[STEP] || [],
+			stepWasAttempt = STEP_ATTEMPTS[STEP] || false,
+			stepIsValid = STEP_VALIDITY[STEP] || false;
+			
 		return <div className={`step-view ${true && 'is-active'}`}>
-			{currentSteps.map(({ name, field, defaultValue, type }, i) => {
-				const identifier = `${field}_${i}`
+			{currentStep.map(({ name, field, defaultValue, type }, i) => {
+				const
+					currentValue = INPUTS[field],
+					{ ERROR, TOUCHED, VALUE } = currentValue,
+					identifier = `${field}_${i}`;
+					
 				return <div key={identifier} className="input-wrapper">
 				
-					<Input setting={{name, field, type}} />
+					<Input setting={{name, field, type, value: currentValue}} />
 					
 					<div className="input-error">
-						{ERRORS && ERRORS[field]}
+						{stepWasAttempt && (!TOUCHED ? 'не заполнено' : ERROR)}
 					</div>
 					
 				</div>
 			})}
 			
 			<button
-				onClick={onNextStepClick}
-				className="btn"
+				className={`btn ${!stepIsValid && stepWasAttempt && 'is-active'}`}
+				onClick={this.onNextStepClick.bind(this)}
 			>
 				Close step
 			</button>
@@ -42,14 +69,17 @@ class UniversalStep extends Component {
 }
 
 const
-	mapStateToProps = ({ STEP, ERRORS }) => {
+	mapStateToProps = ({ STEP, INPUTS, STEP_ATTEMPTS, STEP_VALIDITY }) => {
 		return {
 			STEP,
-			ERRORS,
+			INPUTS,
+			STEP_ATTEMPTS,
+			STEP_VALIDITY,
 		};
 	},
 	mapDispatchToProps = dispatch => ({
-		onNextStepClick: () => dispatch({type: 'CHANGE_STEP'}),
+		onNextStepClickRedux: () => dispatch(changeStep()),
+		showErrorsRedux: () => dispatch(setStepAttempt()),
 	});
 
 const UniversalStepRedux = connect(
