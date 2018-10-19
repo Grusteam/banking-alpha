@@ -6,6 +6,8 @@ import { setInputValue } from '../redux/actions.js'
 
 import UTILS, { getFileLink, getError, validateForm } from '../Utils.js';
 
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
+
 class Input extends Component {
 	async onChange(e) {
 		const
@@ -40,6 +42,8 @@ class Input extends Component {
 		onInputChange({value: result, error, field}, {valid: stepValid});
 	}
 	
+	/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
+	
 	render() {
 		const
 			{ setting: { field, type, placeholder, value }, onChange } = this.props, /* parent */
@@ -57,6 +61,8 @@ class Input extends Component {
 		/>
 	}
 }
+
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 
 const mapStateToProps = ({ STEP, INPUTS }) => {
 	return {

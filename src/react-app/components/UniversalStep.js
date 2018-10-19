@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import rootReducer from '../redux/rootReducer.js'
 
+/* redux actions */
 import Actions, { changeStep, setStepAttempt } from '../redux/actions.js'
 
 /* components */
@@ -13,7 +13,8 @@ import Input from './Input.js'
 import CONSTANTS, { steps } from '../Constants.js';
 import UTILS, { validateForm } from '../Utils.js';
 
-/*Шаг 2 введите данные*/
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
+
 class UniversalStep extends Component {
 	constructor(props, context) {
 		super(props);
@@ -33,6 +34,8 @@ class UniversalStep extends Component {
 			
 		stepValid ? onNextStepClickRedux() : showErrorsRedux();
 	}
+	
+	/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 	
 	render() {
 		const
@@ -70,6 +73,8 @@ class UniversalStep extends Component {
 		</div>
 	}
 }
+
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 
 const
 	mapStateToProps = ({ STEP, INPUTS, STEP_ATTEMPTS, STEP_VALIDITY }) => {

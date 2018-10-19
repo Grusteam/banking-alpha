@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+/* redux actions */
 import Actions, {  } from './redux/actions.js'
 
 /* tools */
@@ -10,6 +11,8 @@ import UTILS, { validateForm } from './Utils.js';
 
 /* components */
 import UniversalStep from './components/UniversalStep.js'
+
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 
 class App extends Component {
 	constructor(props, context) {
@@ -22,6 +25,8 @@ class App extends Component {
 		if (false) {
 		}
 	}
+	
+	/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 	
 	render() {
 		const
@@ -36,6 +41,8 @@ class App extends Component {
 		);
 	}
 }
+
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 
 const
 	mapStateToProps = ({ STEP }) => {

@@ -6,6 +6,8 @@ import {  } from '../redux/actions.js'
 
 import UTILS, {  } from '../Utils.js';
 
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
+
 class InputEnvironment extends Component {
 	render() {
 		const
@@ -14,23 +16,26 @@ class InputEnvironment extends Component {
 			{ ERROR, TOUCHED, VALUE } = value,
 			stepWasAttempt = STEP_ATTEMPTS[STEP] || false;
 			
+		/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
+		
+		return <div className="input-wrapper">
+		
+			{/* name */}
+			<div className="info__title">{name}</div>
 			
-			return <div className="input-wrapper">
+			{/* input */}
+			{ children }
+		
+			{/* error */}
+			<div className="input-error">
+				{stepWasAttempt && (!TOUCHED ? 'не заполнено' : ERROR)}
+			</div>
 			
-				{/* name */}
-				<div className="info__title">{name}</div>
-				
-				{/* input */}
-				{ children }
-			
-				{/* error */}
-				<div className="input-error">
-					{stepWasAttempt && (!TOUCHED ? 'не заполнено' : ERROR)}
-				</div>
-				
-			</div>;
+		</div>;
 	}
 }
+
+/* ... . .-. --. . / --.. .... ..- .-. .- ...- .-.. . ...- */
 
 const mapStateToProps = ({ STEP, INPUTS, STEP_ATTEMPTS, STEP_VALIDITY }) => {
 	return {

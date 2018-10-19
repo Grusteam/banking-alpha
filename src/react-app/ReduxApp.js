@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
+
+/* reducers */
 import rootReducer from './redux/rootReducer.js'
 
 /* tools */
